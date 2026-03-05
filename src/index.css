@@ -86,10 +86,10 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg transform='translate(200,200) rotate(45)'%3E%3Crect x='-110' y='-110' width='220' height='220' fill='none' stroke='%23888' stroke-width='6'/%3E%3Cline x1='-110' y1='0' x2='110' y2='0' stroke='%23888' stroke-width='2' stroke-dasharray='6,6'/%3E%3Cline x1='0' y1='-110' x2='0' y2='110' stroke='%23888' stroke-width='2' stroke-dasharray='6,6'/%3E%3Ccircle cx='-110' cy='0' r='6' fill='%23888'/%3E%3Ccircle cx='110' cy='0' r='6' fill='%23888'/%3E%3Ccircle cx='0' cy='-110' r='6' fill='%23888'/%3E%3Cpolygon points='0,100 -12,116 0,126 12,116' fill='%23888'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("/epic-baseball-field-md.png");
   background-repeat: no-repeat;
-  background-position: center 45%;
-  background-size: 560px 560px;
+  background-position: center center;
+  background-size: 480px auto;
   opacity: 0.12;
   pointer-events: none;
   z-index: 0;
