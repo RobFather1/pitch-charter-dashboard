@@ -1,42 +1,97 @@
-#root {
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Navbar ──────────────────────────────────────────────── */
+.navbar {
+  background-color: var(--bg-navbar);
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Amber gradient line under navbar */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+}
+
+.navbar-brand {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navbar-brand span {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin-left: 6px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Theme Toggle ────────────────────────────────────────── */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theme-toggle:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #0f1923;
+}
+
+.theme-toggle-icon {
+  font-size: 13px;
+}
+
+/* ─── Main Content ────────────────────────────────────────── */
+.app-main {
+  flex: 1;
+  padding: 28px 32px;
   max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+/* ─── Not Found ───────────────────────────────────────────── */
+.not-found {
   text-align: center;
+  padding: 80px 0;
+  color: var(--text-secondary);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.not-found p {
+  font-size: 18px;
+  margin-bottom: 12px;
 }

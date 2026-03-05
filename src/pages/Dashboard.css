@@ -1,0 +1,206 @@
+.dashboard {
+  animation: fadeSlideUp 300ms ease both;
+}
+
+/* ─── Game ID Form ────────────────────────────────────────── */
+.game-id-form {
+  margin-bottom: 28px;
+}
+
+.game-id-form > label {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.game-id-input-row {
+  display: flex;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.game-id-input-row input {
+  flex: 1;
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent);
+  color: var(--text-primary);
+  border-radius: 4px;
+  transition: border-color 150ms, box-shadow 150ms;
+  outline: none;
+}
+
+.game-id-input-row input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.game-id-input-row input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.game-id-input-row button {
+  padding: 10px 22px;
+  background: var(--accent);
+  color: #0f1923;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 150ms;
+  white-space: nowrap;
+}
+
+.game-id-input-row button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.game-id-input-row button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Error Banner ────────────────────────────────────────── */
+.error-banner {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid var(--strike-color);
+  color: var(--strike-color);
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── Game Info Header ────────────────────────────────────── */
+.game-info-header {
+  margin-bottom: 20px;
+  animation: fadeSlideUp 300ms 50ms ease both;
+}
+
+.game-info-header h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 2px;
+}
+
+.game-info-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+/* ─── Filter Bar ──────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 24px;
+  animation: fadeSlideUp 300ms 100ms ease both;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.filter-item label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.filter-item select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 7px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: border-color 150ms;
+  outline: none;
+}
+
+.filter-item select:focus {
+  border-color: var(--accent);
+}
+
+.filter-pitch-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  align-self: flex-end;
+  padding-bottom: 8px;
+  margin-left: auto;
+}
+
+.filter-pitch-count strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ─── Dashboard Content Grid ──────────────────────────────── */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: start;
+  animation: fadeSlideUp 300ms 200ms ease both;
+}
+
+@media (max-width: 720px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Empty / Loading States ──────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 64px 0;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.empty-state .empty-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 64px 0;
+  color: var(--text-secondary);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}

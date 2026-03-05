@@ -1,0 +1,102 @@
+.heatmap-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: fadeSlideUp 300ms 250ms ease both;
+}
+
+.heatmap-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  align-self: flex-start;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 52px);
+  grid-template-rows: repeat(5, 52px);
+  gap: 2px;
+  background: var(--border-color);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.heatmap-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  cursor: default;
+  transition: transform 120ms, box-shadow 120ms;
+  position: relative;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.1);
+  z-index: 2;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Amber outline marks the strike zone */
+.strike-zone {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.zone-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 0, 0, 0.4);
+  line-height: 1;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+}
+
+[data-theme="dark"] .zone-number {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.zone-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+[data-theme="dark"] .zone-count {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.home-plate {
+  margin-top: 2px;
+}
+
+/* ─── Legend ──────────────────────────────────────────────── */
+.heatmap-legend {
+  display: flex;
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}

@@ -1,68 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+/* ─── Light Theme ─────────────────────────────────────────── */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --bg-body: #f5f7fa;
+  --bg-app: #ffffff;
+  --bg-surface: #f0f4f8;
+  --bg-surface-alt: #e8f0fe;
+  --bg-input: #ffffff;
+  --bg-navbar: #0f2034;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --text-primary: #1a2535;
+  --text-secondary: #5a6478;
+  --text-heading: #0f2034;
+  --text-mono: #1a2535;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  --border-color: #d1d9e6;
+  --border-light: #eaeff5;
+
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-glow: rgba(245, 158, 11, 0.3);
+
+  --strike-color: #dc2626;
+  --ball-color: #2563eb;
+
+  --heatmap-empty-strike: #e8f4fd;
+  --heatmap-empty-ball: #f0f0f0;
+  --heatmap-low: #bfdbfe;
+  --heatmap-mid: #fbbf24;
+  --heatmap-high: #dc2626;
+
+  --transition-theme: 200ms ease;
+}
+
+/* ─── Dark Theme ──────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-body: #080e16;
+  --bg-app: #0f1923;
+  --bg-surface: #162130;
+  --bg-surface-alt: #1a2840;
+  --bg-input: #162130;
+  --bg-navbar: #050d14;
+
+  --text-primary: #e8edf5;
+  --text-secondary: #8a9ab5;
+  --text-heading: #f5f7fa;
+  --text-mono: #a8c4e0;
+
+  --border-color: #1e3050;
+  --border-light: #162130;
+
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-glow: rgba(245, 158, 11, 0.45);
+
+  --strike-color: #f87171;
+  --ball-color: #60a5fa;
+
+  --heatmap-empty-strike: #1a2840;
+  --heatmap-empty-ball: #111820;
+  --heatmap-low: #1e3a5f;
+  --heatmap-mid: #b45309;
+  --heatmap-high: #dc2626;
+}
+
+/* ─── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  transition: background-color var(--transition-theme), color var(--transition-theme);
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Baseball Diamond Watermark ──────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg transform='translate(200,200) rotate(45)'%3E%3Crect x='-110' y='-110' width='220' height='220' fill='none' stroke='%23888' stroke-width='6'/%3E%3Cline x1='-110' y1='0' x2='110' y2='0' stroke='%23888' stroke-width='2' stroke-dasharray='6,6'/%3E%3Cline x1='0' y1='-110' x2='0' y2='110' stroke='%23888' stroke-width='2' stroke-dasharray='6,6'/%3E%3Ccircle cx='-110' cy='0' r='6' fill='%23888'/%3E%3Ccircle cx='110' cy='0' r='6' fill='%23888'/%3E%3Ccircle cx='0' cy='-110' r='6' fill='%23888'/%3E%3Cpolygon points='0,100 -12,116 0,126 12,116' fill='%23888'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center 45%;
+  background-size: 560px 560px;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="dark"] body::before {
+  opacity: 0.07;
+}
+
+/* ─── Animations ──────────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Utilities ───────────────────────────────────────────── */
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--accent);
+  text-decoration: none;
 }
+
 a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  text-decoration: underline;
 }
