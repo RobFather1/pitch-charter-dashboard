@@ -2,20 +2,20 @@
 
 /* ─── Light Theme ─────────────────────────────────────────── */
 :root {
-  --bg-body: #f5f7fa;
-  --bg-app: #ffffff;
-  --bg-surface: #ffffff;
-  --bg-surface-alt: #e8f0fe;
-  --bg-input: #ffffff;
+  --bg-body: #d2d5da;
+  --bg-app: #d2d5da;
+  --bg-surface: #dadde2;
+  --bg-surface-alt: #c8cace;
+  --bg-input: #dadde2;
   --bg-navbar: #0f2034;
 
   --text-primary: #1a2535;
-  --text-secondary: #5a6478;
+  --text-secondary: #4a5568;
   --text-heading: #0f2034;
   --text-mono: #1a2535;
 
-  --border-color: #d1d9e6;
-  --border-light: #eaeff5;
+  --border-color: #bcbfc6;
+  --border-light: #c9cbd0;
 
   --accent: #f59e0b;
   --accent-hover: #d97706;
@@ -90,7 +90,7 @@ body::before {
   background-repeat: no-repeat;
   background-position: center 45%;
   background-size: 560px 560px;
-  opacity: 0.04;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }

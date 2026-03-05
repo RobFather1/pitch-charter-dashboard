@@ -1,0 +1,75 @@
+.pitch-mix {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeSlideUp 300ms 300ms ease both;
+}
+
+.pitch-mix-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.pitch-mix-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pitch-mix-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 36px 52px 76px;
+  align-items: center;
+  gap: 10px;
+}
+
+.pitch-mix-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.pitch-mix-bar-track {
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pitch-mix-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 400ms ease;
+  opacity: 0.75;
+}
+
+.pitch-mix-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.pitch-mix-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.pitch-mix-velo {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: right;
+}

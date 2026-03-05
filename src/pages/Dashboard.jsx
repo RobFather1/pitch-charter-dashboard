@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import API_BASE from '../config.js';
 import MetricCards from '../components/MetricCards.jsx';
 import StrikeZoneHeatmap from '../components/StrikeZoneHeatmap.jsx';
+import PitchMix from '../components/PitchMix.jsx';
+import SplitStatsTable from '../components/SplitStatsTable.jsx';
+import CountGrid from '../components/CountGrid.jsx';
+import CountSituations from '../components/CountSituations.jsx';
 import './Dashboard.css';
 
 const PITCH_TYPES = ['All', 'FB', 'CV', 'SL', 'CH'];
@@ -32,6 +36,7 @@ function Dashboard() {
   const [selectedPitchType, setSelectedPitchType] = useState('All');
   const [selectedResult, setSelectedResult] = useState('All');
   const [selectedCount, setSelectedCount] = useState('All Count');
+  const [selectedHand, setSelectedHand] = useState('All');
 
   // Fetch all games on mount to populate the selector
   useEffect(() => {
@@ -97,6 +102,7 @@ function Dashboard() {
     setSelectedPitchType('All');
     setSelectedResult('All');
     setSelectedCount('All Count');
+    setSelectedHand('All');
     setSubmittedGameID(gameID);
   };
 
@@ -115,6 +121,7 @@ function Dashboard() {
       const [b, s] = selectedCount.split('-');
       if (Number(p.ballCount) !== Number(b) || Number(p.strikeCount) !== Number(s)) return false;
     }
+    if (selectedHand !== 'All' && p.batterHand !== selectedHand) return false;
     return true;
   });
 
@@ -162,6 +169,11 @@ function Dashboard() {
         </select>
       </div>
 
+      <div className="section-header">
+        <h3 className="section-header-title">Heatmap</h3>
+        <p className="section-header-sub">Interactive strike zone heatmap</p>
+      </div>
+
       {error && <div className="error-banner">{error}</div>}
 
       {/* Game header once data is loaded */}
@@ -207,6 +219,12 @@ function Dashboard() {
             value={selectedCount}
             onChange={setSelectedCount}
           />
+          <FilterSelect
+            label="Batter"
+            options={['All', 'RHH', 'LHH']}
+            value={selectedHand}
+            onChange={setSelectedHand}
+          />
           <div className="filter-pitch-count">
             Showing <strong>{filteredPitches.length}</strong> of {pitches.length} pitches
           </div>
@@ -215,10 +233,18 @@ function Dashboard() {
 
       {/* Main content */}
       {hasData && (
-        <div className="dashboard-content">
-          <MetricCards pitches={filteredPitches} />
-          <StrikeZoneHeatmap pitches={filteredPitches} />
-        </div>
+        <>
+          <div className="dashboard-content">
+            <MetricCards pitches={filteredPitches} />
+            <StrikeZoneHeatmap pitches={filteredPitches} />
+          </div>
+          <div className="analytics-row">
+            <PitchMix pitches={filteredPitches} />
+            <CountGrid pitches={filteredPitches} />
+            <CountSituations pitches={filteredPitches} />
+          </div>
+          <SplitStatsTable pitches={filteredPitches} />
+        </>
       )}
 
       {/* Loading state */}

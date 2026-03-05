@@ -1,0 +1,106 @@
+.count-grid {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeSlideUp 300ms 400ms ease both;
+}
+
+.count-grid-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ─── Grid Table ───────────────────────────────────────────── */
+.count-grid-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.count-grid-header-row,
+.count-grid-data-row {
+  display: grid;
+  grid-template-columns: 44px repeat(3, 1fr);
+  gap: 2px;
+}
+
+.count-grid-corner {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  opacity: 0.6;
+}
+
+.count-grid-col-header {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+.count-grid-row-header {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+/* ─── Cells ────────────────────────────────────────────────── */
+.count-grid-cell {
+  background: rgba(245, 158, 11, calc(var(--intensity, 0) * 0.55));
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: default;
+  transition: transform 100ms;
+  min-height: 52px;
+}
+
+.count-grid-cell:hover {
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.count-grid-count-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.count-grid-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+/* ─── Axis Note ────────────────────────────────────────────── */
+.count-grid-axis-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+  text-align: center;
+}

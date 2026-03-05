@@ -59,6 +59,26 @@
   cursor: not-allowed;
 }
 
+/* ─── Section Header ──────────────────────────────────────── */
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 2px;
+}
+
+.section-header-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
 /* ─── Error Banner ────────────────────────────────────────── */
 .error-banner {
   background: rgba(220, 38, 38, 0.08);
@@ -164,6 +184,25 @@
   .dashboard-content {
     grid-template-columns: 1fr;
   }
+}
+
+/* ─── Analytics Row (PitchMix + CountGrid side by side) ───── */
+.analytics-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 28px;
+  margin-top: 28px;
+}
+
+@media (max-width: 720px) {
+  .analytics-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SplitStatsTable sits below analytics-row with matching spacing */
+.split-stats {
+  margin-top: 28px;
 }
 
 /* ─── Empty / Loading States ──────────────────────────────── */
