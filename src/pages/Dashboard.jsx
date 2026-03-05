@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import API_BASE from '../config.js';
 import MetricCards from '../components/MetricCards.jsx';
 import StrikeZoneHeatmap from '../components/StrikeZoneHeatmap.jsx';
@@ -6,20 +6,46 @@ import './Dashboard.css';
 
 const PITCH_TYPES = ['All', 'FB', 'CV', 'SL', 'CH'];
 const RESULTS = ['All', 'Strike', 'Ball'];
+const COUNTS = ['All Count', '0-0', '0-1', '0-2', '1-0', '1-1', '1-2', '2-0', '2-1', '2-2', '3-0', '3-1', '3-2'];
+
+function formatGameLabel(game) {
+  const parts = (game.gameDate || '').split('-');
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthName = parts[1] ? (monthNames[parseInt(parts[1], 10) - 1] || parts[1]) : '';
+  const day = parts[2] ? parseInt(parts[2], 10) : '';
+  const datePart = monthName && day ? `${monthName} ${day}` : (game.gameDate || game.gameID);
+  const opponentPart = game.opponent ? `vs. ${game.opponent}` : game.gameID;
+  const gamePart = game.gameNumber ? ` · G${game.gameNumber}` : '';
+  return `${datePart} ${opponentPart}${gamePart}`;
+}
 
 function Dashboard() {
-  const [gameID, setGameID] = useState('');
+  const [allGames, setAllGames] = useState([]);
+  const [opponentSearch, setOpponentSearch] = useState('');
   const [submittedGameID, setSubmittedGameID] = useState('');
   const [pitches, setPitches] = useState([]);
   const [gameInfo, setGameInfo] = useState(null);
-  const [pitchers, setPitchers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [selectedPitcher, setSelectedPitcher] = useState('All');
   const [selectedPitchType, setSelectedPitchType] = useState('All');
   const [selectedResult, setSelectedResult] = useState('All');
+  const [selectedCount, setSelectedCount] = useState('All Count');
 
+  // Fetch all games on mount to populate the selector
+  useEffect(() => {
+    fetch(`${API_BASE}/games`)
+      .then(res => res.ok ? res.json() : [])
+      .then(data => {
+        const games = Array.isArray(data) ? data : [];
+        games.sort((a, b) => (b.gameDate || '').localeCompare(a.gameDate || ''));
+        setAllGames(games);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Fetch pitches when a game is selected (or all games)
   useEffect(() => {
     if (!submittedGameID) return;
 
@@ -31,24 +57,27 @@ function Dashboard() {
     setPitches([]);
     setGameInfo(null);
 
-    // Parallel fetch — no waterfall (React BP Priority 1)
-    Promise.all([
-      fetch(`${API_BASE}/pitches?gameID=${encodeURIComponent(submittedGameID)}`, { signal }),
-      fetch(`${API_BASE}/roster?teamID=main`, { signal }),
-      fetch(`${API_BASE}/games?gameID=${encodeURIComponent(submittedGameID)}`, { signal }),
-    ])
-      .then(async ([pitchesRes, rosterRes, gameRes]) => {
-        if (!pitchesRes.ok) throw new Error(`Failed to load pitches (${pitchesRes.status})`);
-        if (!rosterRes.ok) throw new Error(`Failed to load roster (${rosterRes.status})`);
+    const isAllGames = submittedGameID === 'ALL_GAMES';
+    const pitchUrl = isAllGames
+      ? `${API_BASE}/pitches`
+      : `${API_BASE}/pitches?gameID=${encodeURIComponent(submittedGameID)}`;
+    const gameUrl = isAllGames
+      ? null
+      : `${API_BASE}/games?gameID=${encodeURIComponent(submittedGameID)}`;
 
-        const [pitchData, rosterData, gameData] = await Promise.all([
+    Promise.all([
+      fetch(pitchUrl, { signal }),
+      gameUrl ? fetch(gameUrl, { signal }) : Promise.resolve(null),
+    ])
+      .then(async ([pitchesRes, gameRes]) => {
+        if (!pitchesRes.ok) throw new Error(`Failed to load pitches (${pitchesRes.status})`);
+
+        const [pitchData, gameData] = await Promise.all([
           pitchesRes.json(),
-          rosterRes.json(),
-          gameRes.ok ? gameRes.json() : Promise.resolve(null),
+          gameRes?.ok ? gameRes.json() : Promise.resolve(null),
         ]);
 
         setPitches(Array.isArray(pitchData) ? pitchData : []);
-        setPitchers(Array.isArray(rosterData) ? rosterData : []);
         setGameInfo(gameData);
       })
       .catch(err => {
@@ -62,21 +91,30 @@ function Dashboard() {
     return () => controller.abort();
   }, [submittedGameID]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    const trimmed = gameID.trim();
-    if (!trimmed) return;
+  const handleGameSelect = (gameID) => {
+    if (!gameID) return;
     setSelectedPitcher('All');
     setSelectedPitchType('All');
     setSelectedResult('All');
-    setSubmittedGameID(trimmed);
-  }, [gameID]);
+    setSelectedCount('All Count');
+    setSubmittedGameID(gameID);
+  };
+
+  const filteredGames = opponentSearch.trim()
+    ? allGames.filter(g =>
+        (g.opponent || '').toLowerCase().includes(opponentSearch.trim().toLowerCase())
+      )
+    : allGames;
 
   // Derived filtered pitches — no separate state, computed inline
   const filteredPitches = pitches.filter(p => {
     if (selectedPitcher !== 'All' && p.pitcherName !== selectedPitcher) return false;
     if (selectedPitchType !== 'All' && p.pitchType !== selectedPitchType) return false;
     if (selectedResult !== 'All' && p.result !== selectedResult) return false;
+    if (selectedCount !== 'All Count') {
+      const [b, s] = selectedCount.split('-');
+      if (Number(p.ballCount) !== Number(b) || Number(p.strikeCount) !== Number(s)) return false;
+    }
     return true;
   });
 
@@ -85,24 +123,44 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      {/* Game ID Input */}
-      <form className="game-id-form" onSubmit={handleSubmit}>
-        <label htmlFor="gameID">Game ID</label>
-        <div className="game-id-input-row">
-          <input
-            id="gameID"
-            type="text"
-            placeholder="e.g. 2025-06-01-G1"
-            value={gameID}
-            onChange={e => setGameID(e.target.value)}
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <button type="submit" disabled={loading || !gameID.trim()}>
-            {loading ? 'Loading…' : 'Load Game'}
-          </button>
-        </div>
-      </form>
+      {/* Game Selector */}
+      <div className="game-selector">
+        <input
+          type="text"
+          className="opponent-search"
+          placeholder="Filter by opponent…"
+          value={opponentSearch}
+          onChange={e => setOpponentSearch(e.target.value)}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <select
+          className="game-select"
+          value={submittedGameID}
+          onChange={e => handleGameSelect(e.target.value)}
+          disabled={loading || allGames.length === 0}
+        >
+          <option value="">{allGames.length === 0 ? 'Loading games…' : '— Select a game —'}</option>
+          <option value="ALL_GAMES">All Games</option>
+          {opponentSearch.trim() && (
+            <optgroup label="All Games">
+              {allGames.map(g => (
+                <option key={`all-${g.gameID}`} value={g.gameID}>{formatGameLabel(g)}</option>
+              ))}
+            </optgroup>
+          )}
+          {opponentSearch.trim()
+            ? <optgroup label={`Matching "${opponentSearch.trim()}"`}>
+                {filteredGames.map(g => (
+                  <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
+                ))}
+              </optgroup>
+            : filteredGames.map(g => (
+                <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
+              ))
+          }
+        </select>
+      </div>
 
       {error && <div className="error-banner">{error}</div>}
 
@@ -110,7 +168,9 @@ function Dashboard() {
       {hasData && (
         <div className="game-info-header">
           <h2>
-            {gameInfo?.opponent ? `vs. ${gameInfo.opponent}` : submittedGameID}
+            {submittedGameID === 'ALL_GAMES'
+              ? 'All Games'
+              : gameInfo?.opponent ? `vs. ${gameInfo.opponent}` : submittedGameID}
           </h2>
           <div className="game-info-sub">
             {gameInfo?.gameDate && <span>{gameInfo.gameDate}</span>}
@@ -141,6 +201,12 @@ function Dashboard() {
             value={selectedResult}
             onChange={setSelectedResult}
           />
+          <FilterSelect
+            label="Count"
+            options={COUNTS}
+            value={selectedCount}
+            onChange={setSelectedCount}
+          />
           <div className="filter-pitch-count">
             Showing <strong>{filteredPitches.length}</strong> of {pitches.length} pitches
           </div>
@@ -164,7 +230,6 @@ function Dashboard() {
       {!loading && submittedGameID && !hasData && !error && (
         <div className="empty-state">
           <p>No pitches found for <strong>{submittedGameID}</strong></p>
-          <p className="empty-hint">Check the game ID format: YYYY-MM-DD-G1</p>
         </div>
       )}
     </div>

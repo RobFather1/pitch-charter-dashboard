@@ -17,7 +17,7 @@ function computeMetrics(pitches) {
   const strikePercent = ((strikes / total) * 100).toFixed(1);
 
   // First-pitch: count === 0-0
-  const firstPitches = pitches.filter(p => p.ballCount === 0 && p.strikeCount === 0);
+  const firstPitches = pitches.filter(p => Number(p.ballCount) === 0 && Number(p.strikeCount) === 0);
   const fpStrikes = firstPitches.filter(p => p.result === 'Strike').length;
   const fpStrikePercent = firstPitches.length > 0
     ? ((fpStrikes / firstPitches.length) * 100).toFixed(1)

@@ -4,7 +4,7 @@
 :root {
   --bg-body: #f5f7fa;
   --bg-app: #ffffff;
-  --bg-surface: #f0f4f8;
+  --bg-surface: #ffffff;
   --bg-surface-alt: #e8f0fe;
   --bg-input: #ffffff;
   --bg-navbar: #0f2034;
@@ -35,11 +35,11 @@
 
 /* ─── Dark Theme ──────────────────────────────────────────── */
 [data-theme="dark"] {
-  --bg-body: #080e16;
+  --bg-body: #0f1923;
   --bg-app: #0f1923;
-  --bg-surface: #162130;
+  --bg-surface: #1a2d3e;
   --bg-surface-alt: #1a2840;
-  --bg-input: #162130;
+  --bg-input: #1a2d3e;
   --bg-navbar: #050d14;
 
   --text-primary: #e8edf5;

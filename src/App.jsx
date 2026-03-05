@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useTheme } from './context/ThemeContext.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -5,6 +6,10 @@ import './App.css';
 
 function App() {
   const { darkMode, toggleDarkMode } = useTheme();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   return (
     <div className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
