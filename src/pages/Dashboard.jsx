@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import API_BASE from '../config.js';
+import { useState, useEffect, useMemo } from 'react';
+import API_BASE, { API_KEY } from '../config.js';
 import MetricCards from '../components/MetricCards.jsx';
 import StrikeZoneHeatmap from '../components/StrikeZoneHeatmap.jsx';
 import PitchMix from '../components/PitchMix.jsx';
@@ -8,7 +8,7 @@ import CountGrid from '../components/CountGrid.jsx';
 import CountSituations from '../components/CountSituations.jsx';
 import './Dashboard.css';
 
-const PITCH_TYPES = ['All', 'FB', 'CV', 'SL', 'CH'];
+const API_HEADERS = API_KEY ? { 'x-api-key': API_KEY } : {};
 const RESULTS = ['All', 'Strike', 'Ball'];
 const COUNTS = ['All Count', '0-0', '0-1', '0-2', '1-0', '1-1', '1-2', '2-0', '2-1', '2-2', '3-0', '3-1', '3-2'];
 
@@ -40,7 +40,7 @@ function Dashboard() {
 
   // Fetch all games on mount to populate the selector
   useEffect(() => {
-    fetch(`${API_BASE}/games`)
+    fetch(`${API_BASE}/games`, { headers: API_HEADERS })
       .then(res => res.ok ? res.json() : [])
       .then(data => {
         const games = Array.isArray(data) ? data : [];
@@ -71,8 +71,8 @@ function Dashboard() {
       : `${API_BASE}/games?gameID=${encodeURIComponent(submittedGameID)}`;
 
     Promise.all([
-      fetch(pitchUrl, { signal }),
-      gameUrl ? fetch(gameUrl, { signal }) : Promise.resolve(null),
+      fetch(pitchUrl, { signal, headers: API_HEADERS }),
+      gameUrl ? fetch(gameUrl, { signal, headers: API_HEADERS }) : Promise.resolve(null),
     ])
       .then(async ([pitchesRes, gameRes]) => {
         if (!pitchesRes.ok) throw new Error(`Failed to load pitches (${pitchesRes.status})`);
@@ -87,7 +87,7 @@ function Dashboard() {
       })
       .catch(err => {
         if (err.name === 'AbortError') return;
-        setError(err.message);
+        setError('Failed to load game data. Please try again.');
       })
       .finally(() => {
         if (!signal.aborted) setLoading(false);
@@ -112,8 +112,17 @@ function Dashboard() {
       )
     : allGames;
 
-  // Derived filtered pitches — no separate state, computed inline
-  const filteredPitches = pitches.filter(p => {
+  const pitcherNames = useMemo(
+    () => ['All', ...new Set(pitches.map(p => p.pitcherName).filter(Boolean))],
+    [pitches]
+  );
+
+  const pitchTypes = useMemo(
+    () => ['All', ...new Set(pitches.map(p => p.pitchType).filter(Boolean))],
+    [pitches]
+  );
+
+  const filteredPitches = useMemo(() => pitches.filter(p => {
     if (selectedPitcher !== 'All' && p.pitcherName !== selectedPitcher) return false;
     if (selectedPitchType !== 'All' && p.pitchType !== selectedPitchType) return false;
     if (selectedResult !== 'All' && p.result !== selectedResult) return false;
@@ -123,9 +132,8 @@ function Dashboard() {
     }
     if (selectedHand !== 'All' && p.batterHand !== selectedHand) return false;
     return true;
-  });
+  }), [pitches, selectedPitcher, selectedPitchType, selectedResult, selectedCount, selectedHand]);
 
-  const pitcherNames = ['All', ...new Set(pitches.map(p => p.pitcherName).filter(Boolean))];
   const hasData = pitches.length > 0;
 
   return (
@@ -203,7 +211,7 @@ function Dashboard() {
           />
           <FilterSelect
             label="Pitch Type"
-            options={PITCH_TYPES}
+            options={pitchTypes}
             value={selectedPitchType}
             onChange={setSelectedPitchType}
           />
