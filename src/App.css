@@ -32,6 +32,9 @@
 }
 
 .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
   font-weight: 700;
@@ -40,12 +43,19 @@
   text-transform: uppercase;
 }
 
+.navbar-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
 .navbar-brand span {
   color: rgba(255, 255, 255, 0.5);
   font-weight: 400;
   margin-left: 6px;
   font-size: 13px;
   letter-spacing: 0.04em;
+  text-transform: none;
 }
 
 /* ─── Theme Toggle ────────────────────────────────────────── */

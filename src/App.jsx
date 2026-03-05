@@ -14,10 +14,11 @@ function App() {
   return (
     <div className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
       <nav className="navbar">
-        <span className="navbar-brand">
+        <div className="navbar-brand">
+          <img src="/pitchcharterlogo.PNG" alt="Pitch Charter logo" className="navbar-logo" />
           Pitch Charter
-          <span>Dashboard</span>
-        </span>
+          <span>Analytics Dashboard</span>
+        </div>
         <button
           className="theme-toggle"
           onClick={toggleDarkMode}
