@@ -5,39 +5,22 @@
 /* ─── Game Selector ───────────────────────────────────────── */
 .game-selector {
   display: flex;
-  gap: 12px;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 28px;
-  flex-wrap: wrap;
 }
 
-.opponent-search {
+.game-selector-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  padding: 11px 16px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-color);
-  border-left: 3px solid var(--accent);
-  color: var(--text-primary);
-  border-radius: 4px;
-  width: 220px;
-  transition: border-color 150ms, box-shadow 150ms;
-  outline: none;
-}
-
-.opponent-search::placeholder {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--text-secondary);
-  opacity: 0.6;
-}
-
-.opponent-search:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .game-select {
-  flex: 1;
-  min-width: 260px;
+  width: 100%;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   padding: 11px 16px;

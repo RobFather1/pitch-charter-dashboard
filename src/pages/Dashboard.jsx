@@ -27,7 +27,6 @@ function formatGameLabel(game) {
 
 function Dashboard() {
   const [allGames, setAllGames] = useState([]);
-  const [opponentSearch, setOpponentSearch] = useState('');
   const [submittedGameID, setSubmittedGameID] = useState('');
   const [pitches, setPitches] = useState([]);
   const [gameInfo, setGameInfo] = useState(null);
@@ -108,12 +107,6 @@ function Dashboard() {
     setSubmittedGameID(gameID);
   };
 
-  const filteredGames = opponentSearch.trim()
-    ? allGames.filter(g =>
-        (g.opponent || '').toLowerCase().includes(opponentSearch.trim().toLowerCase())
-      )
-    : allGames;
-
   const pitcherNames = useMemo(
     () => ['All', ...new Set(pitches.map(p => p.pitcherName).filter(Boolean))],
     [pitches]
@@ -142,16 +135,9 @@ function Dashboard() {
     <div className="dashboard">
       {/* Game Selector */}
       <div className="game-selector">
-        <input
-          type="text"
-          className="opponent-search"
-          placeholder="Filter by opponent…"
-          value={opponentSearch}
-          onChange={e => setOpponentSearch(e.target.value)}
-          autoComplete="off"
-          spellCheck={false}
-        />
+        <label className="game-selector-label" htmlFor="game-select">Select a Game</label>
         <select
+          id="game-select"
           className="game-select"
           value={submittedGameID}
           onChange={e => handleGameSelect(e.target.value)}
@@ -159,29 +145,15 @@ function Dashboard() {
         >
           <option value="">{allGames.length === 0 ? 'Loading games…' : '— Select a game —'}</option>
           <option value="ALL_GAMES">All Games</option>
-          {opponentSearch.trim() && (
-            <optgroup label="All Games">
-              {allGames.map(g => (
-                <option key={`all-${g.gameID}`} value={g.gameID}>{formatGameLabel(g)}</option>
-              ))}
-            </optgroup>
-          )}
-          {opponentSearch.trim()
-            ? <optgroup label={`Matching "${opponentSearch.trim()}"`}>
-                {filteredGames.map(g => (
-                  <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
-                ))}
-              </optgroup>
-            : filteredGames.map(g => (
-                <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
-              ))
-          }
+          {allGames.map(g => (
+            <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
+          ))}
         </select>
       </div>
 
       <div className="section-header">
         <h3 className="section-header-title">Heatmap</h3>
-        <p className="section-header-sub">Interactive strike zone heatmap</p>
+        <p className="section-header-sub">Interactive strike zone heatmaps showing pitch location patterns and effectiveness.</p>
       </div>
 
       {error && <div className="error-banner">{error}</div>}
