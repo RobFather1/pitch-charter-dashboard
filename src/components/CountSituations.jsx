@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import InfoHeader from './InfoHeader.jsx';
 import './CountSituations.css';
 
 const AHEAD = new Set(['0-1', '0-2', '1-2']);
@@ -44,7 +45,10 @@ const CountSituations = memo(function CountSituations({ pitches }) {
 
   return (
     <div className="count-situations">
-      <span className="count-situations-title">Count Situations</span>
+      <InfoHeader
+        title="Count Situations"
+        info="Groups every pitch into three leverage situations. Ahead means the pitcher has more strikes than balls — they're in control. Even means equal balls and strikes — neutral. Behind means more balls than strikes — the hitter has the edge. Strike % shows how well the pitcher competes when it matters most."
+      />
       <table className="count-situations-table">
         <thead>
           <tr>

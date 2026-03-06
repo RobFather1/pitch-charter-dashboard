@@ -1,0 +1,53 @@
+.info-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info-header-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ─── Info Button ──────────────────────────────────────────── */
+.info-btn {
+  background: transparent;
+  border: none;
+  padding: 0 2px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--accent);
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 150ms;
+}
+
+.info-btn:hover {
+  opacity: 1;
+}
+
+.info-btn--active {
+  opacity: 1;
+}
+
+/* ─── Info Panel ───────────────────────────────────────────── */
+.info-panel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  background: var(--bg-surface-alt);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 12px;
+  margin: 0;
+}

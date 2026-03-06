@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import InfoHeader from './InfoHeader.jsx';
 import './SplitStatsTable.css';
 
 const STRIKE_ZONE = new Set([7, 8, 9, 12, 13, 14, 17, 18, 19]);
@@ -35,7 +36,10 @@ const SplitStatsTable = memo(function SplitStatsTable({ pitches }) {
 
   return (
     <div className="split-stats">
-      <span className="split-stats-title">Split Stats by Pitch Type</span>
+      <InfoHeader
+        title="Split Stats by Pitch Type"
+        info="Breaks down each pitch type individually. Strike % is how often that pitch results in a strike. Zone % is how often it lands in the strike zone. Avg Velo is average speed. Use this to spot which pitches have command issues or are being thrown out of the zone too often."
+      />
       <table className="split-stats-table">
         <thead>
           <tr>

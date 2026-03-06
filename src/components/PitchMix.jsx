@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import InfoHeader from './InfoHeader.jsx';
 import './PitchMix.css';
 
 const PitchMix = memo(function PitchMix({ pitches }) {
@@ -33,7 +34,10 @@ const PitchMix = memo(function PitchMix({ pitches }) {
 
   return (
     <div className="pitch-mix">
-      <span className="pitch-mix-title">Pitch Mix</span>
+      <InfoHeader
+        title="Pitch Mix"
+        info="Shows how often each pitch type was thrown and at what average velocity. Use this to see if a pitcher is mixing well or leaning too heavily on one pitch — predictable patterns give hitters an advantage."
+      />
       <div className="pitch-mix-rows">
         {rows.map(row => (
           <div key={row.type} className="pitch-mix-row">

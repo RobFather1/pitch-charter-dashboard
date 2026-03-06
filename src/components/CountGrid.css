@@ -9,13 +9,6 @@
   animation: fadeSlideUp 300ms 400ms ease both;
 }
 
-.count-grid-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
 
 /* ─── Grid Table ───────────────────────────────────────────── */
 .count-grid-table {

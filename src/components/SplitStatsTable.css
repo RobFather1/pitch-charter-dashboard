@@ -9,13 +9,6 @@
   animation: fadeSlideUp 300ms 350ms ease both;
 }
 
-.split-stats-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
 
 .split-stats-table {
   width: 100%;

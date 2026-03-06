@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import InfoHeader from './InfoHeader.jsx';
 import './CountGrid.css';
 
 const CountGrid = memo(function CountGrid({ pitches }) {
@@ -17,7 +18,10 @@ const CountGrid = memo(function CountGrid({ pitches }) {
 
   return (
     <div className="count-grid">
-      <span className="count-grid-title">Count Distribution</span>
+      <InfoHeader
+        title="Count Distribution"
+        info="Shows how many pitches were thrown in each ball-strike count. Darker cells mean that count came up more often. Frequently seeing 2-0 or 3-1 indicates the pitcher is regularly falling behind hitters, which forces them into hitter-friendly counts."
+      />
       <div className="count-grid-table">
         {/* Header row: corner + strike column headers */}
         <div className="count-grid-header-row">
