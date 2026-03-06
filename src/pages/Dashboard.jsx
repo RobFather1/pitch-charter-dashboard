@@ -33,7 +33,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [viewMode, setViewMode] = useState('single');
   const [selectedPitcher, setSelectedPitcher] = useState('All');
+  const [selectedPitcher2, setSelectedPitcher2] = useState('All');
   const [selectedPitchType, setSelectedPitchType] = useState('All');
   const [selectedResult, setSelectedResult] = useState('All');
   const [selectedCount, setSelectedCount] = useState('All Count');
@@ -117,8 +119,8 @@ function Dashboard() {
     [pitches]
   );
 
-  const filteredPitches = useMemo(() => pitches.filter(p => {
-    if (selectedPitcher !== 'All' && p.pitcherName !== selectedPitcher) return false;
+  // Base filtering: all non-pitcher filters (shared by both compare columns)
+  const basePitches = useMemo(() => pitches.filter(p => {
     if (selectedPitchType !== 'All' && p.pitchType !== selectedPitchType) return false;
     if (selectedResult !== 'All' && p.result !== selectedResult) return false;
     if (selectedCount !== 'All Count') {
@@ -127,12 +129,39 @@ function Dashboard() {
     }
     if (selectedHand !== 'All' && p.batterHand !== selectedHand) return false;
     return true;
-  }), [pitches, selectedPitcher, selectedPitchType, selectedResult, selectedCount, selectedHand]);
+  }), [pitches, selectedPitchType, selectedResult, selectedCount, selectedHand]);
+
+  const filteredPitches = useMemo(() =>
+    selectedPitcher === 'All' ? basePitches : basePitches.filter(p => p.pitcherName === selectedPitcher),
+    [basePitches, selectedPitcher]
+  );
+
+  const filteredPitches2 = useMemo(() =>
+    selectedPitcher2 === 'All' ? basePitches : basePitches.filter(p => p.pitcherName === selectedPitcher2),
+    [basePitches, selectedPitcher2]
+  );
 
   const hasData = pitches.length > 0;
 
   return (
     <div className="dashboard">
+      <div className="section-header">
+        <h3 className="section-header-title">Heatmap</h3>
+        <p className="section-header-sub">Interactive strike zone heatmaps showing pitch location patterns and effectiveness.</p>
+      </div>
+
+      {/* Mode tabs */}
+      <div className="view-mode-tabs">
+        <button
+          className={`view-mode-tab${viewMode === 'single' ? ' active' : ''}`}
+          onClick={() => { setViewMode('single'); setSelectedPitcher2('All'); }}
+        >Single Pitcher</button>
+        <button
+          className={`view-mode-tab${viewMode === 'compare' ? ' active' : ''}`}
+          onClick={() => setViewMode('compare')}
+        >Compare</button>
+      </div>
+
       {/* Game Selector */}
       <div className="game-selector">
         <label className="game-selector-label" htmlFor="game-select">Select a Game</label>
@@ -149,11 +178,6 @@ function Dashboard() {
             <option key={g.gameID} value={g.gameID}>{formatGameLabel(g)}</option>
           ))}
         </select>
-      </div>
-
-      <div className="section-header">
-        <h3 className="section-header-title">Heatmap</h3>
-        <p className="section-header-sub">Interactive strike zone heatmaps showing pitch location patterns and effectiveness.</p>
       </div>
 
       {error && <div className="error-banner">{error}</div>}
@@ -174,15 +198,43 @@ function Dashboard() {
         </div>
       )}
 
+      {/* Compare pitcher selectors */}
+      {hasData && viewMode === 'compare' && (
+        <div className="compare-pitcher-selectors">
+          <div className="compare-pitcher-pick">
+            <label htmlFor="compare-p1">Pitcher 1</label>
+            <select
+              id="compare-p1"
+              value={selectedPitcher}
+              onChange={e => setSelectedPitcher(e.target.value)}
+            >
+              {pitcherNames.map(n => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+          <div className="compare-pitcher-pick">
+            <label htmlFor="compare-p2">Pitcher 2</label>
+            <select
+              id="compare-p2"
+              value={selectedPitcher2}
+              onChange={e => setSelectedPitcher2(e.target.value)}
+            >
+              {pitcherNames.map(n => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+        </div>
+      )}
+
       {/* Filters */}
       {hasData && (
         <div className="filter-bar">
-          <FilterSelect
-            label="Pitcher"
-            options={pitcherNames}
-            value={selectedPitcher}
-            onChange={setSelectedPitcher}
-          />
+          {viewMode === 'single' && (
+            <FilterSelect
+              label="Pitcher"
+              options={pitcherNames}
+              value={selectedPitcher}
+              onChange={setSelectedPitcher}
+            />
+          )}
           <FilterSelect
             label="Pitch Type"
             options={pitchTypes}
@@ -207,14 +259,16 @@ function Dashboard() {
             value={selectedHand}
             onChange={setSelectedHand}
           />
-          <div className="filter-pitch-count">
-            Showing <strong>{filteredPitches.length}</strong> of {pitches.length} pitches
-          </div>
+          {viewMode === 'single' && (
+            <div className="filter-pitch-count">
+              Showing <strong>{filteredPitches.length}</strong> of {pitches.length} pitches
+            </div>
+          )}
         </div>
       )}
 
       {/* Main content */}
-      {hasData && (
+      {hasData && viewMode === 'single' && (
         <>
           <div className="dashboard-content">
             <MetricCards pitches={filteredPitches} />
@@ -229,6 +283,30 @@ function Dashboard() {
           <PlatoonSplits pitches={filteredPitches} />
           <VelocityTrend pitches={filteredPitches} />
         </>
+      )}
+
+      {/* Compare content */}
+      {hasData && viewMode === 'compare' && (
+        <div className="compare-layout">
+          <div className="compare-col">
+            <div className="compare-pitcher-label">
+              {selectedPitcher === 'All' ? 'Pitcher 1' : selectedPitcher}
+            </div>
+            <MetricCards pitches={filteredPitches} />
+            <StrikeZoneHeatmap pitches={filteredPitches} />
+            <PitchMix pitches={filteredPitches} />
+            <VelocityTrend pitches={filteredPitches} />
+          </div>
+          <div className="compare-col">
+            <div className="compare-pitcher-label compare-pitcher-label--p2">
+              {selectedPitcher2 === 'All' ? 'Pitcher 2' : selectedPitcher2}
+            </div>
+            <MetricCards pitches={filteredPitches2} />
+            <StrikeZoneHeatmap pitches={filteredPitches2} />
+            <PitchMix pitches={filteredPitches2} />
+            <VelocityTrend pitches={filteredPitches2} />
+          </div>
+        </div>
       )}
 
       {/* Loading state */}
