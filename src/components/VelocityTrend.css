@@ -1,0 +1,67 @@
+.velocity-trend {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  animation: fadeSlideUp 300ms 450ms ease both;
+}
+
+.velocity-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG text elements */
+.chart-axis-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  fill: var(--text-secondary);
+}
+
+.chart-axis-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  fill: var(--text-secondary);
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chart-grid-line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.chart-axis-line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+/* Legend */
+.velocity-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.velocity-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+.velocity-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

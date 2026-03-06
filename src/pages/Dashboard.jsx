@@ -6,6 +6,8 @@ import PitchMix from '../components/PitchMix.jsx';
 import SplitStatsTable from '../components/SplitStatsTable.jsx';
 import CountGrid from '../components/CountGrid.jsx';
 import CountSituations from '../components/CountSituations.jsx';
+import PlatoonSplits from '../components/PlatoonSplits.jsx';
+import VelocityTrend from '../components/VelocityTrend.jsx';
 import './Dashboard.css';
 
 const API_HEADERS = API_KEY ? { 'x-api-key': API_KEY } : {};
@@ -252,6 +254,8 @@ function Dashboard() {
             <CountSituations pitches={filteredPitches} />
           </div>
           <SplitStatsTable pitches={filteredPitches} />
+          <PlatoonSplits pitches={filteredPitches} />
+          <VelocityTrend pitches={filteredPitches} />
         </>
       )}
 

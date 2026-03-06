@@ -1,0 +1,115 @@
+.platoon-splits {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  animation: fadeSlideUp 300ms 400ms ease both;
+}
+
+.platoon-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.platoon-table thead th {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: right;
+}
+
+.platoon-type-header {
+  text-align: left !important;
+  width: 52px;
+}
+
+/* RHH group gets a left accent border */
+.platoon-hand-header {
+  text-align: center !important;
+  padding-bottom: 4px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.04em !important;
+}
+
+.rhh-header {
+  color: var(--accent) !important;
+  border-left: 2px solid var(--accent);
+}
+
+.lhh-header {
+  color: var(--text-secondary) !important;
+  border-left: 1px solid var(--border-color);
+}
+
+/* Sub-header row */
+.platoon-table thead tr:last-child th {
+  font-size: 9px;
+  padding-top: 2px;
+}
+
+.platoon-table thead tr:last-child th:nth-child(2) {
+  border-left: 2px solid var(--accent);
+}
+
+.platoon-table thead tr:last-child th:nth-child(6) {
+  border-left: 1px solid var(--border-color);
+}
+
+.platoon-table tbody td {
+  padding: 7px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.platoon-table tbody td:first-child {
+  text-align: left;
+}
+
+/* Mirror the hand column separators in body */
+.platoon-table tbody td:nth-child(2),
+.platoon-table tfoot td:nth-child(2) {
+  border-left: 2px solid var(--accent);
+}
+
+.platoon-table tbody td:nth-child(6),
+.platoon-table tfoot td:nth-child(6) {
+  border-left: 1px solid var(--border-color);
+}
+
+.platoon-table tbody tr:hover td {
+  background: var(--bg-surface-alt);
+}
+
+.platoon-pitch-type {
+  color: var(--accent) !important;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+/* Total row */
+.platoon-table tfoot td {
+  padding: 7px 10px;
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--border-color);
+}
+
+.platoon-table tfoot td:first-child {
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
