@@ -113,3 +113,29 @@
   font-size: 9px;
   letter-spacing: 0.1em;
 }
+
+.platoon-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 720px) {
+  .platoon-splits {
+    padding: 14px 12px;
+  }
+
+  .platoon-table {
+    font-size: 11px;
+  }
+
+  .platoon-table thead th {
+    padding: 5px 6px;
+    font-size: 9px;
+  }
+
+  .platoon-table tbody td,
+  .platoon-table tfoot td {
+    padding: 5px 6px;
+    font-size: 11px;
+  }
+}

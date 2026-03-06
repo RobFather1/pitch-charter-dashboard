@@ -83,35 +83,37 @@ const PlatoonSplits = memo(function PlatoonSplits({ pitches }) {
         title="Platoon Splits"
         info="Compares how each pitch type performs against right-handed (RHH) vs. left-handed (LHH) batters. A large gap in strike % or zone % between hands can reveal whether a pitch loses effectiveness against one side of the plate."
       />
-      <table className="platoon-table">
-        <thead>
-          <tr>
-            <th rowSpan={2} className="platoon-type-header">Type</th>
-            <th colSpan={4} className="platoon-hand-header rhh-header">vs. RHH</th>
-            <th colSpan={4} className="platoon-hand-header lhh-header">vs. LHH</th>
-          </tr>
-          <tr>
-            <th>#</th><th>Strike%</th><th>Zone%</th><th>Avg Velo</th>
-            <th>#</th><th>Strike%</th><th>Zone%</th><th>Avg Velo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {typeRows.map(row => (
-            <tr key={row.type}>
-              <td className="platoon-pitch-type">{row.type}</td>
-              <Cell stats={row.rhh} />
-              <Cell stats={row.lhh} />
+      <div className="platoon-table-scroll">
+        <table className="platoon-table">
+          <thead>
+            <tr>
+              <th rowSpan={2} className="platoon-type-header">Type</th>
+              <th colSpan={4} className="platoon-hand-header rhh-header">vs. RHH</th>
+              <th colSpan={4} className="platoon-hand-header lhh-header">vs. LHH</th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr className="platoon-total-row">
-            <td>Total</td>
-            <Cell stats={rhhTotal} />
-            <Cell stats={lhhTotal} />
-          </tr>
-        </tfoot>
-      </table>
+            <tr>
+              <th>#</th><th>Strike%</th><th>Zone%</th><th>Avg Velo</th>
+              <th>#</th><th>Strike%</th><th>Zone%</th><th>Avg Velo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {typeRows.map(row => (
+              <tr key={row.type}>
+                <td className="platoon-pitch-type">{row.type}</td>
+                <Cell stats={row.rhh} />
+                <Cell stats={row.lhh} />
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="platoon-total-row">
+              <td>Total</td>
+              <Cell stats={rhhTotal} />
+              <Cell stats={lhhTotal} />
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 });
