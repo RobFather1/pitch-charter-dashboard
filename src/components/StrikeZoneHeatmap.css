@@ -6,14 +6,6 @@
   animation: fadeSlideUp 300ms 250ms ease both;
 }
 
-.heatmap-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  align-self: flex-start;
-}
 
 .heatmap-grid {
   display: grid;

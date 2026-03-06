@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import InfoHeader from './InfoHeader.jsx';
 import './StrikeZoneHeatmap.css';
 
 const GRID_SIZE = 5;
@@ -47,7 +48,10 @@ const StrikeZoneHeatmap = memo(function StrikeZoneHeatmap({ pitches }) {
 
   return (
     <div className="heatmap-container">
-      <div className="heatmap-title">Strike Zone Heatmap</div>
+      <InfoHeader
+        title="Strike Zone Heatmap"
+        info="The grid shows where pitches are being thrown. The inner 3×3 cells (outlined in gold) are the strike zone. Color intensity shows pitch frequency — blue is low, yellow is mid, red is high. Hover any cell to see the exact count. Use this to spot location tendencies and identify zones where a pitcher is living or avoiding."
+      />
       <div className="heatmap-grid">
         {Array.from({ length: GRID_SIZE }, (_, row) =>
           Array.from({ length: GRID_SIZE }, (_, col) => {

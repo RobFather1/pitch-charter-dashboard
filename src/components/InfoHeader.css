@@ -1,7 +1,7 @@
 .info-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  width: 100%;
 }
 
 .info-header-row {
@@ -18,36 +18,50 @@
   color: var(--text-secondary);
 }
 
-/* ─── Info Button ──────────────────────────────────────────── */
+/* ─── Tooltip Wrapper ──────────────────────────────────────── */
+.info-tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ─── Icon Button ──────────────────────────────────────────── */
 .info-btn {
   background: transparent;
   border: none;
-  padding: 0 2px;
+  padding: 0;
   cursor: pointer;
-  font-size: 13px;
   color: var(--accent);
-  line-height: 1;
-  opacity: 0.6;
+  opacity: 0.65;
+  display: flex;
+  align-items: center;
   transition: opacity 150ms;
 }
 
-.info-btn:hover {
+.info-tooltip-wrapper:hover .info-btn {
   opacity: 1;
 }
 
-.info-btn--active {
-  opacity: 1;
-}
-
-/* ─── Info Panel ───────────────────────────────────────────── */
-.info-panel {
+/* ─── Floating Tooltip ─────────────────────────────────────── */
+.info-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   line-height: 1.6;
   color: var(--text-secondary);
-  background: var(--bg-surface-alt);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-left: 2px solid var(--accent);
   border-radius: 0 4px 4px 0;
   padding: 10px 12px;
-  margin: 0;
+  z-index: 50;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.info-tooltip-wrapper:hover .info-tooltip {
+  display: block;
 }
